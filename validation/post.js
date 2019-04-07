@@ -11,29 +11,24 @@ module.exports = function validateRegisterInput(data) {
   
 // title checks
 if (Validator.isEmpty(data.title)) {
-  errors.title = "Title field is required";
+  errors.title = "Title is required";
 }
-
 // content checks
   if (Validator.isEmpty(data.content)) {
-    errors.content = "Content field is required";
+    errors.content = "Content is required";
   }
-
 // CategoryID checks
   if (Validator.isEmpty(data.categoryID)) {
-    errors.categoryID = "CategoryID field is required";
+    errors.categoryID = "CategoryID is required";
   }
-
 // Remarks checks
 if (Validator.isEmpty(data.remarks)) {
-  errors.remarks = "Remarks field is required";
+  errors.remarks = "Remarks is required";
 }  
-
 // publish checks
 if (Validator.isEmpty(data.publish)) {
-  errors.publish = "Publish field is required";
+  errors.publish = "Publish is required";
 } 
-
 return {
     errors,
     isValid: isEmpty(errors)

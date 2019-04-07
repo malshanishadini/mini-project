@@ -12,27 +12,27 @@ module.exports = function validateRegisterInput(data) {
 
 // Title checks
   if (Validator.isEmpty(data.title)) {
-    errors.title = "Title field is required";
+    errors.title = "Title is required";
   }
 // Username checks
   if (Validator.isEmpty(data.username)) {
-    errors.username = "Username field is required";
+    errors.username = "Username is required";
   }
 // Firstname checks
 if (Validator.isEmpty(data.firstName)) {
-  errors.firstName = "Firstname field is required";
+  errors.firstName = "Firstname is required";
 }
 // Lastname checks
 if (Validator.isEmpty(data.lastName)) {
-  errors.lastName = "Lastname field is required";
+  errors.lastName = "Lastname is required";
 }
 // Userlavel checks
 if (Validator.isEmpty(data.userLevel)) {
-  errors.userLevel = "Userlevel field is required";
+  errors.userLevel = "Userlevel is required";
 }
 // Password checks
 if (Validator.isEmpty(data.password)) {
-  errors.password = "Password field is required";
+  errors.password = "Password is required";
 } else if (!Validator.isLength(data.password, { min: 6, max: 30 })) {
   errors.password = "Password must be at least 6 characters";
 }

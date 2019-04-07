@@ -2,35 +2,32 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const shortid = require('shortid');
 const keys = require("../../config/keys");
 const gravatar=require('gravatar');
 
 // Load input validation
 const validateRegisterInput = require("../../validation/register");
 const validateLoginInput = require("../../validation/login");
+
 // Load User model
 const User = require("../../models/User");
 
-// @route POST api/users/new
-// @desc Register user
-// @access Public
+// route POST api/users/new
 router.post("/new", (req, res) => {
-    // Form validation
+  // Form validation
   const { errors, isValid } = validateRegisterInput(req.body);
   // Check validation
-    if (!isValid) {
-      return res.status(400).json(errors);
-    }
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
   User.findOne({ username: req.body.username }).then(user => {
-      if (user) {
-        return res.status(400).json({ username: "Username already exists" });
-      }
+    if (user) {
+      return res.status(400).json({ username: "Username already exists" });
+    }
       
   var avatarURL = gravatar.url('req.body.username', {s: '200', r: 'pg', d: 'mm'});
 
   const newUser = new User({
-          userID:shortid.generate(),
           title: req.body.title,
           username: req.body.username,
           password: req.body.password,
@@ -53,22 +50,20 @@ router.post("/new", (req, res) => {
           });
         });
       
-    });
   });
+});
 
 
 
-// @route POST api/users/login
-// @desc Login user and return JWT token
-// @access Public
+// route POST api/users/login
 router.post("/login", (req, res) => {
-    // Form validation
+  // Form validation
   const { errors, isValid } = validateLoginInput(req.body);
   // Check validation
     if (!isValid) {
       return res.status(400).json(errors);
     }
-  const username = req.body.username;
+    const username = req.body.username;
     const password = req.body.password;
   // Find user by username
     User.findOne({ username }).then(user => {
@@ -82,8 +77,8 @@ router.post("/login", (req, res) => {
           // User matched
           // Create JWT Payload
           const payload = {
-            id: user.id,
-            name: user.name
+            userID: user.userID,
+            username: user.username
           };
   // Sign token
           jwt.sign(
@@ -106,20 +101,24 @@ router.post("/login", (req, res) => {
         }
       });
     });
-  });
+});
 
 
 
 
-
-//Get userdetails
+// route GET Get api/users/user/:userID
 router.get('/user/:userID',(req,res)=>{
   User.findById(req.params.userID)
   .then(userFound=>{
     if(!userFound){return res.status(404).end();}
-    return res.status(200).json(userFound);
+    return res.status(200).json({
+      title: userFound.title,
+      firstName: userFound.firstName,
+      lastName: userFound.lastName,
+      userLevel: userFound.userLevel
+    });
   })
-  .catch(err => next(err));
+  .catch(err => console.log(err));
   
 });
 
@@ -127,4 +126,4 @@ router.get('/user/:userID',(req,res)=>{
 
 
 
-  module.exports = router;
+module.exports = router;

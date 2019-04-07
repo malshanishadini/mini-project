@@ -1,11 +1,9 @@
 const mongoose = require("mongoose");
 const shortid = require('shortid');
-
 const Schema = mongoose.Schema;
 
 // Create Schema
 const UserSchema = new Schema({
-
   userID: {
     type: String,
     default: shortid.generate
@@ -41,16 +39,14 @@ const UserSchema = new Schema({
     type: String,
     required: true  
   },
-
   createdDate:{
     type:Date,
     default:Date.now
   }
 
-  // updatedDate:Date,
-
- 
+  // updatedDate:Date, 
 });
+
 module.exports = User = mongoose.model("users", UserSchema);
 
 
